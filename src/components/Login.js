@@ -71,6 +71,9 @@ const CTALogoOne = styled.img`
 `;
 
 const SignUp = styled.a`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-weight: bold;
   color: #f9f9f9;
   background-color: #0063e5;
@@ -81,6 +84,7 @@ const SignUp = styled.a`
   padding: 16.5px 0;
   border: 1px solid transparent;
   border-radius: 4px;
+  cursor: pointer;
 
   &:hover {
     background-color: #0483ee;

@@ -1,17 +1,83 @@
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { auth, provider } from "../firebase";
+import {
+  selectUserName,
+  selectUserPhoto,
+  setUserLoginDetails,
+} from "../features/user/userSlice";
 
 const Header = (props) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const userName = useSelector(selectUserName);
+  const userPhoto = useSelector(selectUserPhoto);
+
+  const handleAuth = () => {
+    auth
+      .signInWithPopup(provider)
+      .then((result) => {
+        setUser(result.user);
+        // 確認用
+        console.log("ユーザ情報");
+        console.log(result);
+        console.log(result.user);
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+
+  const setUser = (user) => {
+    dispatch(
+      setUserLoginDetails({
+        // console.log(result);
+        // console.logで確認したユーザ情報をセット
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+      })
+    );
+  };
   return (
     <Nav>
       <Logo>
         <img src="/images/logo.svg" alt="" />
       </Logo>
-      <NavMenu>
-        <a href="/home">
-          <img src="/images/home-icon.svg" alt="Home" />
-          <span>HOME</span>
-        </a>
-      </NavMenu>
+      {!userName ? (
+        <Login onClick={handleAuth}>Login</Login>
+      ) : (
+        <>
+          <NavMenu>
+            <a href="/home">
+              <img src="/images/home-icon.svg" alt="Home" />
+              <span>HOME</span>
+            </a>
+            <a href="/search">
+              <img src="/images/search-icon.svg" alt="Search" />
+              <span>SEARCH</span>
+            </a>
+            <a href="/watchlist">
+              <img src="/images/watchlist-icon.svg" alt="Watchlist" />
+              <span>WATCHLIST</span>
+            </a>
+            <a href="/originals">
+              <img src="/images/original-icon.svg" alt="Original" />
+              <span>ORIGINAL</span>
+            </a>
+            <a href="/movie">
+              <img src="/images/movie-icon.svg" alt="Movie" />
+              <span>MOVIE</span>
+            </a>
+            <a href="/series">
+              <img src="/images/series-icon.svg" alt="Series" />
+              <span>SERIES</span>
+            </a>
+          </NavMenu>
+          <UserImg src={userPhoto} alt={userName} />
+        </>
+      )}
     </Nav>
   );
 };
@@ -27,16 +93,23 @@ const Nav = styled.nav`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0 36px;
+  padding: 0 20px 0 30px;
   letter-spacing: 16px;
   z-index: 3;
+
+  @media (max-width: 768px) {
+    padding: 0 15px;
+  }
 `;
 
 const Logo = styled.a`
-  max-width: 80px;
   margin-top: 4px;
   max-height: 70px;
-  width: 100%;
+  width: 80px;
+
+  img {
+    width: 100%;
+  }
 `;
 
 const NavMenu = styled.div`
@@ -101,4 +174,27 @@ const NavMenu = styled.div`
     display: none;
   }
 `;
+
+const Login = styled.a`
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 8px 16px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border: 1px solid #f9f9f9;
+  border-radius: 4px;
+  transition: all 0.2s ease 0s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f9f9f9;
+    color: #000000;
+    border-color: transparent;
+  }
+`;
+
+const UserImg = styled.img`
+  height: 45px;
+  border-radius: 50%;
+`;
+
 export default Header;
