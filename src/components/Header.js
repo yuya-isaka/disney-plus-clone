@@ -194,7 +194,8 @@ const Login = styled.a`
 
 const UserImg = styled.img`
   height: 45px;
-  border-radius: 50%;
+  ${"" /* border-radius: 31% 69% 31% 69% / 42% 61% 39% 58%; */}
+  border-radius: 32% 68% 61% 39% / 32% 34% 66% 68%;
 `;
 
 export default Header;
