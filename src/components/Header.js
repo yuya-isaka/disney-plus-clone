@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 // ストア/スライスにアクセスするための関数（ディスパッチ，セレクタ）
 import { useDispatch, useSelector } from "react-redux";
+// ルートの管理
 import { useHistory } from "react-router-dom";
 // 管理，Googleプロバイダをインポート
 import { auth, provider } from "../config/firebase.js";
@@ -9,6 +11,7 @@ import {
   selectUserName,
   selectUserPhoto,
   setUserLoginDetails,
+  setSignOutState,
 } from "../features/user/userSlice";
 
 const Header = (props) => {
@@ -18,20 +21,48 @@ const Header = (props) => {
   const userName = useSelector(selectUserName);
   const userPhoto = useSelector(selectUserPhoto);
 
+  // フック
+  // ブラウザでコンポーネントが初めて表示される時に必ず一度実行
+  // コンポーネントが更新される度に実行（第２引数の値で変わる，空配列ならコンポーネントの更新で呼ばれなくなる）
+  // （外部APIからのデータ取得・初期化に使える）
+  useEffect(() => {
+    // 自動で認証ユーザかチェック
+    auth.onAuthStateChanged(async (user) => {
+      // 認証ユーザなら
+      // データを初期化，ホームにルーティング
+      if (user) {
+        setUser(user);
+        history.push("/home");
+      }
+    });
+  }, [userName]);
+
   const handleAuth = () => {
-    // 指定したログイン
-    auth
-      .signInWithPopup(provider)
-      .then((result) => {
-        setUser(result.user);
-        // 確認用
-        console.log("ユーザ情報");
-        console.log(result);
-        console.log(result.user);
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+    if (!userName) {
+      // 指定したログイン方法で認証
+      auth
+        .signInWithPopup(provider)
+        .then((result) => {
+          setUser(result.user);
+          // 確認用
+          console.log("ユーザ情報");
+          console.log(result);
+          console.log(result.user);
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    } else if (userName) {
+      auth
+        .signOut()
+        .then(() => {
+          dispatch(setSignOutState());
+          history.push("/");
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    }
   };
 
   const setUser = (user) => {
@@ -83,7 +114,12 @@ const Header = (props) => {
               <span>SERIES</span>
             </a>
           </NavMenu>
-          <UserImg src={userPhoto} alt={userName} />
+          <SignOut>
+            <UserImg src={userPhoto} alt={userName} />
+            <DropDown>
+              <span onClick={handleAuth}>Sign out</span>
+            </DropDown>
+          </SignOut>
         </>
       )}
     </Nav>
@@ -125,7 +161,6 @@ const NavMenu = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   position: relative;
   margin-right: auto;
   margin-left: 25px;
@@ -157,7 +192,6 @@ const NavMenu = styled.div`
         border-radius: 0px 0px 4px 4px;
         content: "";
         height: 2px;
-        opacity: 0;
         position: absolute;
         bottom: -6px;
         right: 0px;
@@ -165,6 +199,7 @@ const NavMenu = styled.div`
         transform-origin: left center;
         transform: scaleX(0);
         transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+        opacity: 0;
         visibility: hidden;
       }
     }
@@ -201,9 +236,44 @@ const Login = styled.a`
 `;
 
 const UserImg = styled.img`
-  height: 45px;
-  ${"" /* border-radius: 31% 69% 31% 69% / 42% 61% 39% 58%; */}
+  height: 100%;
   border-radius: 32% 68% 61% 39% / 32% 34% 66% 68%;
+`;
+
+const DropDown = styled.div`
+  position: absolute;
+  white-space: nowrap;
+  top: 48px;
+  right: 0px;
+  background: rgb(19, 19, 19);
+  border: 1px solid rgba(151, 151, 151, 0.34);
+  border-radius: 4px;
+  box-shadow: rgb(0 0 0 / 50%) 0px 0px 18px 0px;
+  padding: 10px;
+  font-size: 14px;
+  letter-spacing: 3px;
+  opacity: 0;
+`;
+
+const SignOut = styled.div`
+  position: relative;
+  height: 48px;
+  width: 48px;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+
+  ${UserImg} {
+    height: 100%;
+    width: 100%;
+  }
+
+  &:hover {
+    ${DropDown} {
+      opacity: 1;
+    }
+  }
 `;
 
 export default Header;

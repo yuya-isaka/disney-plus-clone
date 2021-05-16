@@ -20,7 +20,8 @@ const Login = () => {
   );
 };
 
-const Container = styled.section`
+// main
+const Container = styled.main`
   overflow: hidden;
   display: flex;
   flex-direction: column;
