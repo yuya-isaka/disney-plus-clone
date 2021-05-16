@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 // 管理，Googleプロバイダをインポート
-import { auth, provider } from "../firebase";
+import { auth, provider } from "../config/firebase.js";
 // スライスから「名前・写真・アクション」をインポート
 import {
   selectUserName,
