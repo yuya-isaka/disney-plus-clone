@@ -1,7 +1,10 @@
 import styled from "styled-components";
+// ストア/スライスにアクセスするための関数（ディスパッチ，セレクタ）
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+// 管理，Googleプロバイダをインポート
 import { auth, provider } from "../firebase";
+// スライスから「名前・写真・アクション」をインポート
 import {
   selectUserName,
   selectUserPhoto,
@@ -11,10 +14,12 @@ import {
 const Header = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
+  // セレクタ経由でスライスの情報にアクセス
   const userName = useSelector(selectUserName);
   const userPhoto = useSelector(selectUserPhoto);
 
   const handleAuth = () => {
+    // 指定したログイン
     auth
       .signInWithPopup(provider)
       .then((result) => {
@@ -30,14 +35,17 @@ const Header = (props) => {
   };
 
   const setUser = (user) => {
+    // ディスパッチ経由でスライスの関数を呼び出す
     dispatch(
-      setUserLoginDetails({
-        // console.log(result);
-        // console.logで確認したユーザ情報をセット
-        name: user.displayName,
-        email: user.email,
-        photo: user.photoURL,
-      })
+      setUserLoginDetails(
+        // ペイロードオブジェクト（自動生成）
+        {
+          // console.log(result.user)で確認したユーザ情報をセット
+          name: user.displayName,
+          email: user.email,
+          photo: user.photoURL,
+        }
+      )
     );
   };
   return (

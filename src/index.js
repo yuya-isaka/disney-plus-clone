@@ -2,7 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
+// ストアをインポート
 import store from "./app/store";
+// リダックスプロバイダをインポート
 import { Provider } from "react-redux";
 
 ReactDOM.render(
