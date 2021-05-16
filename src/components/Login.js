@@ -78,12 +78,12 @@ const SignUp = styled.a`
   font-weight: bold;
   color: #f9f9f9;
   background-color: #0063e5;
-  margin-bottom: 12px;
+  margin-bottom: 25px;
   width: 100%;
+  height: auto;
   letter-spacing: 1.5px;
   font-size: 18px;
   padding: 16.5px 0;
-  border: 1px solid transparent;
   border-radius: 4px;
   cursor: pointer;
 
