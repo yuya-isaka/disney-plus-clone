@@ -2,6 +2,7 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 // スライスからリデューサをインポート
 import userReducer from "../store/user/userSlice.js";
+import movieReducer from "../store/movie/movieSlice.js";
 
 // ストア設定
 // エキスポート
@@ -10,6 +11,7 @@ export default configureStore({
   reducer: {
     // リデューサごとに設定
     user: userReducer,
+    movie: movieReducer,
   },
   // ミドルウェア設定
   middleware: getDefaultMiddleware({

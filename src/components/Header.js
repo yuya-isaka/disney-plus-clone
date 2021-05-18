@@ -1,3 +1,4 @@
+// フック，ライフサイクル，コンポーネントが初めて表示される時，第２引数の値が変更された時
 import { useEffect } from "react";
 import styled from "styled-components";
 // ストア/スライスにアクセスするための関数（ディスパッチ，セレクタ）
@@ -15,6 +16,8 @@ import {
 } from "../store/user/userSlice";
 
 const Header = (props) => {
+  // 事前準備
+  // ディスパッチ，ヒストリ，スライスの変数
   const dispatch = useDispatch();
   const history = useHistory();
   // セレクタ経由でスライスの情報にアクセス
