@@ -1,7 +1,7 @@
 // ストア設定関数，ミドルウェア作成関数
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 // スライスからリデューサをインポート
-import userReducer from "../features/user/userSlice.js";
+import userReducer from "../store/user/userSlice.js";
 
 // ストア設定
 // エキスポート

@@ -85,6 +85,7 @@ const Wrap = styled.div`
   border-radius: 4px;
   cursor: position;
   position: relative;
+  transition: all 250ms cubic-bezier(0.25, 0.45, 0.45, 0.94);
 
   a {
     border-radius: 4px;
@@ -93,7 +94,8 @@ const Wrap = styled.div`
     cursor: pointer;
     display: block;
     position: relative;
-    padding: 4px;
+    padding: 5px;
+    margin: 0 17px;
 
     img {
       width: 100%;
@@ -102,8 +104,11 @@ const Wrap = styled.div`
 
     &:hover {
       padding: 0;
-      border: 3px solid rgba(249, 249, 249, 0.8);
-      transition-duration: 300ms;
+      border: 2px solid rgba(249, 249, 249, 0.8);
+      transition-duration: 500ms;
+      transform: scale(1.03);
+      box-shadow: rgb(0 0 0 / 80%) 0px 40px 58px -16px,
+        rgb(0 0 0 / 72%) 0px 30px 22px -10px;
     }
   }
 `;

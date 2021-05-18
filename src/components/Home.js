@@ -1,10 +1,20 @@
 import styled from "styled-components";
 import ImgSlider from "./ImgSlider.js";
+import Viewers from "./Viewers.js";
+import Recomends from "./Recomends.js";
+import NewDisney from "./NewDisney.js";
+import Originals from "./Originals.js";
+import Trendings from "./Trendings.js";
 
 const Home = (props) => {
   return (
     <Container>
       <ImgSlider />
+      <Viewers />
+      <Recomends />
+      <NewDisney />
+      <Originals />
+      <Trendings />
     </Container>
   );
 };

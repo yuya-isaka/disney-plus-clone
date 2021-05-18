@@ -12,7 +12,7 @@ import {
   selectUserPhoto,
   setUserLoginDetails,
   setSignOutState,
-} from "../features/user/userSlice";
+} from "../store/user/userSlice";
 
 const Header = (props) => {
   const dispatch = useDispatch();
