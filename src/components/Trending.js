@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-const Trendings = () => {
+const Trending = () => {
   return (
     <Container>
       <h4>Trendings !</h4>
@@ -87,4 +87,4 @@ const Wrap = styled.div`
   }
 `;
 
-export default Trendings;
+export default Trending;

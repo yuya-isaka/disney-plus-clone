@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Viewers = () => {
+const Viewer = () => {
   return (
     <Container>
       <Wrap>
@@ -93,4 +93,4 @@ const Wrap = styled.div`
   }
 `;
 
-export default Viewers;
+export default Viewer;

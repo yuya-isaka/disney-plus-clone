@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import ImgSlider from "./ImgSlider.js";
-import Viewers from "./Viewers.js";
-import Recomends from "./Recomends.js";
+import Viewer from "./Viewer.js";
+import Recommend from "./Recommend.js";
 import NewDisney from "./NewDisney.js";
-import Originals from "./Originals.js";
-import Trendings from "./Trendings.js";
+import Original from "./Original.js";
+import Trending from "./Trending.js";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import db from "../config/firebase.js";
@@ -30,7 +30,16 @@ const Home = (props) => {
     );
   };
 
+  // コンポーネントのレンダリングとは別に処理を記述
   useEffect(() => {
+    // Firestoreサーバからデータ取得（非同期）
+    // asyncで書くなら
+    // const f = async () => {
+    //   await db.collection("").get().then()
+    //   set()
+    // }
+    // f()
+    // みたいに書く
     db.collection("movies").onSnapshot((snapshot) => {
       snapshot.docs.map((doc) => {
         console.log(recommend);
@@ -53,16 +62,19 @@ const Home = (props) => {
       });
       set();
     });
+    // concole.log("check")
+    // Firebaseとの通信は非同期処理なので，こちらに記述した式が先に評価される
+    // それを避けたければ，async/await構文を使う
   }, [userName]);
 
   return (
     <Container>
       <ImgSlider />
-      <Viewers />
-      <Recomends />
+      <Viewer />
+      <Recommend />
       <NewDisney />
-      <Originals />
-      <Trendings />
+      <Original />
+      <Trending />
     </Container>
   );
 };
