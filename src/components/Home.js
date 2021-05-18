@@ -14,17 +14,17 @@ import { selectUserName } from "../store/user/userSlice.js";
 const Home = (props) => {
   const dispatch = useDispatch();
   const userName = useSelector(selectUserName);
-  let recommends = [];
+  let recommend = [];
   let newDisney = [];
-  let originals = [];
+  let original = [];
   let trending = [];
 
   const set = () => {
     dispatch(
       setMovies({
-        recommends: recommends,
+        recommend: recommend,
         newDisney: newDisney,
-        originals: originals,
+        original: original,
         trending: trending,
       })
     );
@@ -33,26 +33,26 @@ const Home = (props) => {
   useEffect(() => {
     db.collection("movies").onSnapshot((snapshot) => {
       snapshot.docs.map((doc) => {
+        console.log(recommend);
         switch (doc.data().type) {
           case "recommend":
-            recommends.push({ id: doc.id }, ...doc.data());
+            recommend = [...recommend, { id: doc.id, ...doc.data() }];
             break;
           case "new":
-            newDisney.push({ id: doc.id }, ...doc.data());
+            newDisney = [...newDisney, { id: doc.id, ...doc.data() }];
             break;
           case "original":
-            originals.push({ id: doc.id }, ...doc.data());
+            original = [...original, { id: doc.id, ...doc.data() }];
             break;
           case "trending":
-            trending.push({ id: doc.id }, ...doc.data());
+            trending = [...trending, { id: doc.id, ...doc.data() }];
             break;
           default:
-            throw new Error("Invalid type")
+            throw new Error("Invalid type");
         }
       });
+      set();
     });
-
-    set();
   }, [userName]);
 
   return (
