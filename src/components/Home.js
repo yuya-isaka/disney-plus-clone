@@ -46,6 +46,8 @@ const Home = (props) => {
           case "trending":
             trending.push({ id: doc.id }, ...doc.data());
             break;
+          default:
+            throw new Error("Invalid type")
         }
       });
     });
