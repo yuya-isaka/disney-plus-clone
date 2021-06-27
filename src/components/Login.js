@@ -95,7 +95,7 @@ const SignUp = styled.a`
 const Description = styled.p`
   font-size: 12px;
   margin: 0 0 24px;
-  ling-height: 1.5;
+  line-height: 1.5;
   letter-spacing: 1.5px;
 `;
 
